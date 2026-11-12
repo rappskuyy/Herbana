@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data & Fakta - Analisis Perilaku Hemat Energi Siswa | Herbana</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            botanical: {
+              50: '#f4f7f2',
+              100: '#e4ece0',
+              200: '#c8dac1',
+              300: '#a3c299',
+              400: '#7ea772',
+              500: '#5b8a4e',
+              600: '#436e38',
+              700: '#34572b',
+              800: '#2c4625',
+              900: '#243b20',
+              dark: '#23321b',
+              deep: '#1a2614',
+              accent: '#de5427',
+              gold: '#e5a83b',
+              cream: '#f5f0e6'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- External Stylesheet (Terpisah dari HTML) -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Core Chart Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Fallback Data JS -->
+  <script src="data-perilaku-energi.js"></script>
+
+  <!-- MVC Architecture Modules (Terpisah dari HTML) -->
+  <!-- 1. Model -->
+  <script src="js/models/EnergyModel.js"></script>
+  <!-- 2. View -->
+  <script src="js/views/ChartView.js"></script>
+  <!-- 3. Controller -->
+  <script src="js/controllers/DataFaktaController.js"></script>
+</head>
+<body class="bg-[#1e2b17] text-[#f4f7f2] font-sans antialiased selection:bg-botanical-gold selection:text-black">
+
+  <!-- ==================== HEADER NAVBAR ==================== -->
+  <header class="sticky top-0 z-50 bg-[#1a2614]/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full bg-botanical-500/20 border border-botanical-400/40 flex items-center justify-center text-botanical-300 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-serif font-bold tracking-tight text-white group-hover:text-botanical-200 transition-colors">Herbana</span>
+          <span class="text-[10px] tracking-widest uppercase text-botanical-300 font-semibold -mt-1">Data & Fakta Riset</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-emerald-100/80">
+        <a href="index.html" class="hover:text-white transition-colors">&larr; Kembali ke Landing Page</a>
+        <a href="#ringkasan" class="hover:text-white transition-colors">Ringkasan</a>
+        <a href="#grafik-analisis" class="hover:text-white transition-colors">Visualisasi Grafik</a>
+        <a href="#tabel-butir" class="hover:text-white transition-colors">10 Indikator</a>
+      </nav>
+
+      <!-- Action -->
+      <div>
+        <a href="index.html#tanaman-herbal" class="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs tracking-wider uppercase transition-all border border-white/20">
+          Koleksi Herbal &rarr;
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-5 sm:px-8 py-12 space-y-16">
+    
+    <!-- ==================== HERO DATA & FAKTA ==================== -->
+    <section class="space-y-6 pt-4">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-botanical-gold/20 text-botanical-gold text-xs font-semibold tracking-wider uppercase border border-botanical-gold/30">
+        📊 Laporan Analisis Kuesioner Siswa Kelas XI
+      </div>
+      
+      <div class="max-w-4xl space-y-4">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-tight">
+          Halaman Data & Fakta: <br>
+          <span class="text-botanical-200">Perilaku Hemat Energi Siswa</span>
+        </h1>
+        <p class="text-emerald-100/80 text-base sm:text-lg leading-relaxed">
+          Penyajian data hasil survei empiris terhadap 636 responden siswa kelas XI. Data ini membuktikan kondisi nyata pemahaman, kebiasaan sehari-hari, serta kesiapan warga sekolah dalam mengadopsi budaya ramah lingkungan berdampingan dengan program budidaya herbal sekolah.
+        </p>
+      </div>
+
+      <!-- KPI Metric Cards Grid -->
+      <div id="ringkasan" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-6">
+        
+        <!-- Metric 1 -->
+        <div class="bg-[#24331b] p-6 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+          <div class="text-xs text-emerald-200/60 uppercase font-semibold tracking-wider">Total Responden</div>
+          <div class="text-4xl font-serif font-black text-white mt-2" id="kpi-responden">636</div>
+          <div class="text-xs text-botanical-gold mt-1">99.4% Partisipasi Kelas XI</div>
+          <div class="absolute -right-2 -bottom-2 text-white/5 text-6xl font-serif">👥</div>
+        </div>
+
+        <!-- Metric 2 -->
+        <div class="bg-[#24331b] p-6 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+          <div class="text-xs text-emerald-200/60 uppercase font-semibold tracking-wider">Rata-Rata Skor</div>
+          <div class="text-4xl font-serif font-black text-botanical-gold mt-2" id="kpi-skor">3.36</div>
+          <div class="text-xs text-emerald-200/80 mt-1">Skala 1.00 – 4.00 (Likert)</div>
+          <div class="absolute -right-2 -bottom-2 text-white/5 text-6xl font-serif">⭐</div>
+        </div>
+
+        <!-- Metric 3 -->
+        <div class="bg-[#24331b] p-6 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+          <div class="text-xs text-emerald-200/60 uppercase font-semibold tracking-wider">Kategori Dominan</div>
+          <div class="text-4xl font-serif font-black text-emerald-300 mt-2" id="kpi-kategori">59.4%</div>
+          <div class="text-xs text-emerald-200/80 mt-1">Kategori "Sangat Baik"</div>
+          <div class="absolute -right-2 -bottom-2 text-white/5 text-6xl font-serif">🌿</div>
+        </div>
+
+        <!-- Metric 4 -->
+        <div class="bg-[#24331b] p-6 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+          <div class="text-xs text-emerald-200/60 uppercase font-semibold tracking-wider">Konsistensi Hemat</div>
+          <div class="text-4xl font-serif font-black text-white mt-2" id="kpi-sering">90.8%</div>
+          <div class="text-xs text-botanical-300 mt-1">Rata-rata Rutin/Sering</div>
+          <div class="absolute -right-2 -bottom-2 text-white/5 text-6xl font-serif">⚡</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SECTION GRAFIK UTAMA ==================== -->
+    <section id="grafik-analisis" class="space-y-12">
+      
+      <div class="border-b border-white/10 pb-4">
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white">Visualisasi Data Grafik Interaktif</h2>
+        <p class="text-xs sm:text-sm text-emerald-100/70 mt-1">Dihasilkan melalui arsitektur MVC (EnergyModel &rarr; ChartView &rarr; DataFaktaController).</p>
+      </div>
+
+      <!-- ROW 1: KATEGORI & JURUSAN -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- GRAFIK 1: Kategori Pemahaman Siswa (Doughnut Chart) -->
+        <div class="lg:col-span-5 bg-[#24331b] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-bold text-xl text-white">1. Sebaran Kategori Perilaku Siswa</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-botanical-500/20 text-botanical-300 font-medium">Donut Chart</span>
+            </div>
+            <div class="relative h-72 w-full flex items-center justify-center">
+              <canvas id="chartKategori"></canvas>
+            </div>
+          </div>
+
+          <!-- Kalimat Singkat Penjelas di Bawah Tiap Grafik (Instruksi Wajib) -->
+          <div class="mt-6 p-4 rounded-2xl bg-black/40 border-l-4 border-botanical-gold text-xs text-emerald-100/90 leading-relaxed">
+            <span class="font-bold text-white block mb-0.5">💡 Kalimat Penjelas:</span>
+            Mayoritas siswa (59,4% Sangat Baik dan 36,8% Baik) telah memiliki kebiasaan hemat energi yang mantap, sementara hanya 0,2% yang berada pada kategori kurang.
+          </div>
+        </div>
+
+        <!-- GRAFIK 2: Rata-Rata Skor per Jurusan (Bar Chart) -->
+        <div class="lg:col-span-7 bg-[#24331b] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-bold text-xl text-white">2. Rata-Rata Skor Hemat Energi per Jurusan</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-botanical-gold/20 text-botanical-gold font-medium">Bar Chart</span>
+            </div>
+            <div class="relative h-72 w-full flex items-center justify-center">
+              <canvas id="chartJurusan"></canvas>
+            </div>
+          </div>
+
+          <!-- Kalimat Singkat Penjelas di Bawah Tiap Grafik (Instruksi Wajib) -->
+          <div class="mt-6 p-4 rounded-2xl bg-black/40 border-l-4 border-botanical-accent text-xs text-emerald-100/90 leading-relaxed">
+            <span class="font-bold text-white block mb-0.5">💡 Kalimat Penjelas:</span>
+            Jurusan Pemasaran (PMN) menempati peringkat teratas dengan skor 3,51, diikuti Perhotelan (3,46) dan Kuliner (3,43), membuktikan praktik hemat energi diterapkan merata di seluruh kompetensi keahlian.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: 10 INDIKATOR BUTIR & GAYA BELAJAR -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- GRAFIK 3: 10 Butir Pertanyaan (Horizontal Bar Chart) -->
+        <div class="lg:col-span-7 bg-[#24331b] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-bold text-xl text-white">3. Skor 10 Indikator Perilaku Sehari-hari (P01 – P10)</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-medium">Horizontal Bar</span>
+            </div>
+            <div class="relative h-80 w-full flex items-center justify-center">
+              <canvas id="chartButir"></canvas>
+            </div>
+          </div>
+
+          <!-- Kalimat Singkat Penjelas di Bawah Tiap Grafik (Instruksi Wajib) -->
+          <div class="mt-6 p-4 rounded-2xl bg-black/40 border-l-4 border-emerald-400 text-xs text-emerald-100/90 leading-relaxed">
+            <span class="font-bold text-white block mb-0.5">💡 Kalimat Penjelas:</span>
+            Praktik hemat energi umum (P01: 3,51) dan mencabut colokan steker (P06: 3,45) menjadi kebiasaan terkuat, sedangkan membatasi durasi pemakaian laptop (P04: 3,22) membutuhkan intervensi edukasi tambahan.
+          </div>
+        </div>
+
+        <!-- GRAFIK 4: Skor Berdasarkan Gaya Belajar (Grouped Bar Chart) -->
+        <div class="lg:col-span-5 bg-[#24331b] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-bold text-xl text-white">4. Perbandingan Menurut Gaya Belajar</h3>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium">Grouped Bar</span>
+            </div>
+            <div class="relative h-80 w-full flex items-center justify-center">
+              <canvas id="chartGayaBelajar"></canvas>
+            </div>
+          </div>
+
+          <!-- Kalimat Singkat Penjelas di Bawah Tiap Grafik (Instruksi Wajib) -->
+          <div class="mt-6 p-4 rounded-2xl bg-black/40 border-l-4 border-amber-400 text-xs text-emerald-100/90 leading-relaxed">
+            <span class="font-bold text-white block mb-0.5">💡 Kalimat Penjelas:</span>
+            Siswa bertipe kinestetik (3,40) dan auditori (3,39) cenderung lebih proaktif dalam aksi fisik hemat energi seperti mematikan saklar dan merawat tanaman dibanding tipe visual (3,32).
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==================== TABEL RINCIAN 10 INDIKATOR KUESIONER ==================== -->
+    <section id="tabel-butir" class="bg-[#24331b] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-serif font-bold text-white">Tabel Rincian 10 Butir Pernyataan Kuesioner</h2>
+          <p class="text-xs sm:text-sm text-emerald-100/70 mt-1">Data empiris terverifikasi dari instrumen kuesioner skala Likert.</p>
+        </div>
+        <div class="text-xs text-botanical-gold font-semibold bg-black/30 px-3 py-1.5 rounded-full border border-white/10 w-fit">
+          Rentang Skor: 1.00 (Terendah) – 4.00 (Tertinggi)
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-white/15 text-emerald-200/80 uppercase tracking-wider text-[11px]">
+              <th class="py-3 px-4">Kode</th>
+              <th class="py-3 px-4">Indikator & Pertanyaan</th>
+              <th class="py-3 px-4 text-center">Rata-rata Skor</th>
+              <th class="py-3 px-4 text-center">Persen Sering</th>
+              <th class="py-3 px-4 text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tabel-butir-body" class="divide-y divide-white/5 text-white/90">
+            <!-- Diisi secara dinamis oleh ChartView via DataFaktaController -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== KESIMPULAN & REKOMENDASI NYATA ==================== -->
+    <section class="bg-gradient-to-br from-[#2b3c22] to-[#1e2a16] p-8 sm:p-10 rounded-3xl border border-botanical-gold/30 shadow-2xl relative overflow-hidden">
+      <div class="max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-botanical-gold/20 text-botanical-gold text-xs font-bold uppercase tracking-wider">
+          Kesimpulan Analisis Data & Sinergi Herbal
+        </div>
+        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white">
+          Langkah Nyata: Menjaga Konsistensi Melalui Kebun Herbal (TOGA)
+        </h3>
+        <p class="text-emerald-100/80 text-sm leading-relaxed">
+          Dari temuan data di atas, kesadaran hemat energi siswa kelas XI sudah sangat tinggi (skor rerata 3,36 / 4,00). 
+          Untuk memperkuat kebiasaan ini ke tingkat aksi nyata yang berkelanjutan, <strong>Herbana merekomendasikan pembudidayaan tanaman obat keluarga (TOGA)</strong> di setiap bengkel, lab, dan kelas.
+          Kehadiran tanaman herbal tidak hanya menyediakan obat alami siap petik tanpa emisi karbon industri, namun juga menghidupkan budaya kepedulian lingkungan yang terbukti berkorelasi positif dengan perilaku hemat listrik dan air.
+        </p>
+
+        <div class="pt-4 flex flex-wrap gap-4 no-print">
+          <a href="index.html#hero" class="px-6 py-3 rounded-full bg-botanical-gold hover:bg-[#d89a2e] text-[#1c2815] font-bold text-xs uppercase tracking-wider transition-all shadow-md">
+            Kembali ke Beranda Herbana
+          </a>
+          <button onclick="window.print()" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span>Cetak / Simpan Laporan</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-[#152011] text-emerald-200/70 py-12 border-t border-white/10 text-xs mt-16">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="font-serif font-bold text-white text-base">Herbana</span>
+        <span>&bull; Data & Fakta Perilaku Hemat Energi Siswa Kelas XI</span>
+      </div>
+      <div>
+        Sumber: <em>Kuesioner - ENERGI XI (Perilaku)</em> (636 Responden Terverifikasi)
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
