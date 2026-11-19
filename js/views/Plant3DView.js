@@ -3,12 +3,15 @@
  * @description View layer for rendering Real 3D Herbal Plant Asset using Three.js & WebGL.
  * 
  * Aturan perilaku & visual:
- * 1. Asset 3D Asli (GLTF/GLB) dengan Physically-Based Rendering (PBR) studio lighting (tampak nyata/realistis, bukan kartun/animasi).
- * 2. Posisi melayang elegan di tengah panggung dengan bayangan lantai lembut (soft floor shadow).
- * 3. Ketika TIDAK di-scroll: Model 3D 100% diam di posisinya.
- * 4. Ketika DI-SCROLL ke bawah: Model 3D berputar 360 derajat secara 3D dan meluncur turun secara mulus (smooth scrub).
- * 5. Mendukung pergantian varian model (01, 02, 03) serta tombol panah < >.
- * 6. Memiliki fallback otomatis ke foto realistik jika browser membatasi CORS lokal file://.
+ * 1. Pencahayaan Studio Seimbang (Natural Botanical Lighting):
+ *    - Tidak overexposed / silau berlebihan (intensitas cahaya disesuaikan agar pot putih dan daun tidak terbakar).
+ *    - Material PBR dengan kelembutan matte alami (daun beludru herbal dan pot keramik matte).
+ * 2. Perilaku Rotasi & Gerakan:
+ *    - Saat TIDAK di-scroll: Model 3D tetap berputar pelan dan anggun secara kontinu (idle slow rotation).
+ *    - Saat DI-SCROLL ke bawah: Model 3D ikut meluncur turun secara mulus (smooth translation Y)
+ *      dan rotasi bertambah dinamis seiring scroll.
+ * 3. Mendukung interaktivitas tombol varian (01, 02, 03) dan tombol panah < >.
+ * 4. Fallback aman jika browser lokal membatasi CORS file://.
  */
 
 class Plant3DView {
@@ -26,7 +29,7 @@ class Plant3DView {
     this.currentModelGroup = null;
     this.modelsCache = {};
     this.isWebGLAvailable = false;
-    this.initialModelY = 0;
+    this.idleRotation = 0; // Sudut rotasi pelan saat diam
 
     // Scroll state proxy untuk GSAP ScrollTrigger
     this.scrollState = {
@@ -96,7 +99,7 @@ class Plant3DView {
   }
 
   /**
-   * Menyiapkan Three.js WebGL Scene dengan Realistic Studio 3-Point Lighting
+   * Menyiapkan Three.js WebGL Scene dengan Pencahayaan Alami (Tidak Terlalu Terang)
    */
   initThreeScene() {
     const width = this.container.clientWidth || 360;
@@ -109,13 +112,14 @@ class Plant3DView {
     this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     this.camera.position.set(0, 0, 4.2);
 
-    // 3. WebGL Renderer dengan PBR Tone Mapping untuk Realisme Maksimal
+    // 3. WebGL Renderer dengan PBR Tone Mapping & Exposure Lembut
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    // Exposure diturunkan dari 1.15 ke 0.82 agar pot putih dan daun tidak overexposed/silau
+    this.renderer.toneMappingExposure = 0.82;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -124,35 +128,49 @@ class Plant3DView {
     this.container.innerHTML = '';
     this.container.appendChild(this.renderer.domElement);
 
-    // 4. Pencahayaan Studio Botani (Photorealistic Lighting)
-    // Ambient light - pantulan lembut lingkungan botani
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    // 4. Pencahayaan Studio Botani Lembut & Realistis (Intensitas Dikalibrasi Ulang)
+    // Ambient light - cahaya lembut lingkungan botani (tidak silau)
+    const ambientLight = new THREE.AmbientLight(0xdff0d8, 0.55);
     this.scene.add(ambientLight);
 
-    // Key Light - Sinar matahari hangat dari sudut kiri atas
-    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.2);
-    keyLight.position.set(3, 4, 3);
+    // Key Light - Cahaya utama hangat terarah (diturunkan dari 2.2 ke 0.95)
+    const keyLight = new THREE.DirectionalLight(0xfffaed, 0.95);
+    keyLight.position.set(2.5, 3.5, 2.5);
     keyLight.castShadow = true;
     this.scene.add(keyLight);
 
-    // Fill Light - Menyinari bagian bayangan dengan rona botani segar
-    const fillLight = new THREE.DirectionalLight(0x7bc676, 1.0);
-    fillLight.position.set(-3, 1, 2);
+    // Fill Light - Menyinari bayangan dengan rona hijau lembut (diturunkan dari 1.0 ke 0.35)
+    const fillLight = new THREE.DirectionalLight(0xa5d6a7, 0.35);
+    fillLight.position.set(-2.5, 1.5, 2.0);
     this.scene.add(fillLight);
 
-    // Rim Light - Menghasilkan kilau specular pada tepian helai daun
-    const rimLight = new THREE.DirectionalLight(0xe5a83b, 1.2);
-    rimLight.position.set(0, -2, -3);
+    // Rim Light - Kilau tepian daun halus (diturunkan dari 1.2 ke 0.4)
+    const rimLight = new THREE.DirectionalLight(0x81c784, 0.4);
+    rimLight.position.set(0, 2.5, -3.0);
     this.scene.add(rimLight);
 
-    // Render loop
-    const animate = () => {
+    // 5. Render Loop dengan Putaran Pelan Berkelanjutan Saat Tidak Di-scroll
+    let lastTime = performance.now();
+
+    const animate = (currentTime) => {
       requestAnimationFrame(animate);
+
+      if (currentTime) {
+        const delta = Math.min((currentTime - lastTime) * 0.001, 0.1);
+        lastTime = currentTime;
+        
+        // Putar pelan secara konstan (~21 detik untuk 1 putaran penuh 360 derajat)
+        this.idleRotation += delta * 0.30;
+      }
+
+      // Update posisi dan rotasi kombinasi (idle slow spin + scroll progress)
+      this.updateModelTransform();
+
       if (this.renderer && this.scene && this.camera) {
         this.renderer.render(this.scene, this.camera);
       }
     };
-    animate();
+    requestAnimationFrame(animate);
 
     // Resize handler
     window.addEventListener('resize', () => {
@@ -182,15 +200,22 @@ class Plant3DView {
       (gltf) => {
         const root = gltf.scene;
 
-        // Optimasi material PBR agar tampak realistis (bukan animasi/kartun)
+        // Optimasi material PBR agar tidak silau/plastik mengkilap
         root.traverse((child) => {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
             if (child.material) {
-              child.material.roughness = 0.45;
-              child.material.metalness = 0.05;
-              child.material.envMapIntensity = 1.0;
+              // Hilangkan kilau plastik berlebihan
+              child.material.roughness = 0.65; // Tekstur alami daun dan pot
+              child.material.metalness = 0.0;  // Non-metalik
+              child.material.envMapIntensity = 0.3; // Pantulan lingkungan lembut
+
+              // Khusus pot/wadah putih: buat matte agar tidak terbakar putih polos
+              const nameLower = (child.name || '').toLowerCase();
+              if (nameLower.includes('pot') || nameLower.includes('vase') || nameLower.includes('bowl')) {
+                child.material.roughness = 0.85; // Keramik matte
+              }
             }
           }
         });
@@ -232,7 +257,7 @@ class Plant3DView {
     this.currentModelGroup = modelGroup;
     this.scene.add(this.currentModelGroup);
 
-    // Sesuaikan dengan posisi scroll saat ini
+    // Sesuaikan dengan posisi saat ini
     this.updateModelTransform();
 
     // Animasi muncul yang anggun
@@ -243,21 +268,24 @@ class Plant3DView {
   }
 
   /**
-   * Update posisi dan rotasi 3D model berdasarkan progres scroll
+   * Update posisi dan rotasi 3D model:
+   * Menggabungkan putaran pelan saat idle + putaran dan luncuran ke bawah saat di-scroll
    */
   updateModelTransform() {
     if (!this.currentModelGroup) return;
 
-    // Rotasi 3D: berputar 360 derajat (Math.PI * 2)
-    this.currentModelGroup.rotation.y = this.scrollState.progress * Math.PI * 2;
-    // Sedikit kemiringan visual dinamis
-    this.currentModelGroup.rotation.x = Math.sin(this.scrollState.progress * Math.PI) * 0.15;
-    // Gerakan meluncur ke bawah (turun di sumbu Y)
+    // Rotasi 3D: putaran pelan berkelanjutan (idleRotation) + putaran tambahan saat scroll
+    this.currentModelGroup.rotation.y = this.idleRotation + (this.scrollState.progress * Math.PI * 2);
+    
+    // Kemiringan halus saat di-scroll
+    this.currentModelGroup.rotation.x = Math.sin(this.scrollState.progress * Math.PI) * 0.12;
+    
+    // Gerakan meluncur ke bawah (turun di sumbu Y) seiring scroll
     this.currentModelGroup.position.y = -(this.scrollState.progress * 1.4);
   }
 
   /**
-   * GSAP ScrollTrigger: Menggerakkan model 3D HANYA saat di-scroll ke bawah
+   * GSAP ScrollTrigger: Menggerakkan model 3D meluncur turun saat di-scroll ke bawah
    */
   initScrollMotion() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -278,7 +306,7 @@ class Plant3DView {
       ease: "none"
     });
 
-    // Animasikan bayangan lantai agar mengecil & meredup saat tanaman turun/bergerak
+    // Animasikan bayangan lantai agar mengecil & meredup saat tanaman turun
     if (this.plantShadow) {
       gsap.to(this.plantShadow, {
         scrollTrigger: {
@@ -311,20 +339,28 @@ class Plant3DView {
     `;
 
     const fallbackBox = document.getElementById('fallback-plant-box');
-    if (fallbackBox && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    if (fallbackBox && typeof gsap !== 'undefined') {
+      // Putaran pelan berkelanjutan saat idle pada fallback
       gsap.to(fallbackBox, {
-        scrollTrigger: {
-          trigger: "#hero",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.5
-        },
-        y: 300,
-        rotationY: 360,
-        rotationX: 8,
-        scale: 0.95,
+        rotationY: "+=360",
+        duration: 20,
+        repeat: -1,
         ease: "none"
       });
+
+      if (typeof ScrollTrigger !== 'undefined') {
+        gsap.to(fallbackBox, {
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.5
+          },
+          y: 300,
+          scale: 0.95,
+          ease: "none"
+        });
+      }
     }
   }
 

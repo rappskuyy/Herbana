@@ -1,6 +1,6 @@
 /* ==========================================================================
    HERBANA - MAIN STYLESHEET
-   Botanical Theme, 3D Transforms, Custom Scrollbar & Print Styling
+   Friendly Botanical Theme, 3D Transforms, Custom Scrollbar & Print Styling
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -19,44 +19,34 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. Shadow & Lighting Aesthetics
+   2. Shadow & Lighting Aesthetics (Fresh & Friendly)
    -------------------------------------------------------------------------- */
 .glow-plant {
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
 }
 
 .stump-shadow {
-  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.7);
-}
-
-.wood-bark-texture {
-  background: repeating-linear-gradient(
-    90deg,
-    #2b1708,
-    #2b1708 3px,
-    transparent 3px,
-    transparent 12px
-  );
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.45));
 }
 
 /* --------------------------------------------------------------------------
-   3. Custom Scrollbar
+   3. Custom Scrollbar (Friendly Fresh Green)
    -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1c2815;
+  background: #255431;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #436e38;
-  border-radius: 4px;
+  background: #52a265;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5b8a4e;
+  background: #6abb7e;
 }
 
 /* --------------------------------------------------------------------------
@@ -72,11 +62,11 @@
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
 }
 
 /* --------------------------------------------------------------------------
-   5. Print Styling (Untuk Ekspor Dokumen Laporan Data & Fakta)
+   5. Print Styling
    -------------------------------------------------------------------------- */
 @media print {
   header, footer, #mobile-menu, #mobile-menu-btn, button, .no-print {
@@ -88,7 +78,7 @@
     color: #1a1a1a !important;
   }
   
-  .bg-\[\#24331b\], .bg-\[\#1e2b17\], .bg-\[\#1a2614\] {
+  .bg-\[\#357345\], .bg-\[\#2a5d37\], .bg-\[\#336f43\] {
     background: #f9f9f9 !important;
     color: #1a1a1a !important;
     border: 1px solid #ddd !important;
@@ -98,4 +88,3 @@
     color: #111111 !important;
   }
 }
-

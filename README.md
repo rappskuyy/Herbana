@@ -1,26 +1,19 @@
 # Herbana - Website Edukasi Herbal & Perilaku Hemat Energi (Arsitektur MVC & 3D WebGL)
 
-Projek **Herbana** menggabungkan kearifan tanaman obat keluarga (TOGA) Nusantara dengan kesadaran budaya hemat energi di lingkungan sekolah. Website ini telah dibangun menggunakan standar **Model-View-Controller (MVC)** dengan pemisahan berkas **HTML, CSS, dan JavaScript**, serta visualisasi **Asset 3D Asli (Real 3D WebGL via Three.js)** yang terlihat nyata (*photorealistic*).
+Projek **Herbana** menggabungkan kearifan tanaman obat keluarga (TOGA) Nusantara dengan kesadaran budaya hemat energi di lingkungan sekolah. Website ini dibangun menggunakan arsitektur **Model-View-Controller (MVC)** dengan pemisahan berkas **HTML, CSS, dan JavaScript**, visualisasi **Asset 3D Asli (Three.js WebGL PBR)**, serta kampanye terstruktur dari **Fase 1 (Edukasi), Fase 2 (Data & Fakta), hingga Fase 3 (Rekomendasi & Ajakan Aksi Berbasis Data)**.
 
 ---
 
-## 🌿 Asset 3D Asli & Photorealistic Rendering (Bukan Animasi/Kartun)
+## 🎯 Detail Fase 3 — Rekomendasi & Ajakan Aksi Terukur
 
-Pada hero section:
-1. **Asset 3D Nyata**:
-   - Menggunakan model 3D nyata format binary glTF (`assets/plant-1.glb`, `assets/plant-2.glb`, `assets/plant-3.glb`).
-   - Dirender secara langsung melalui GPU pengguna menggunakan **Three.js WebGL Renderer**.
-2. **Pencahayaan Studio Botani (Studio 3-Point PBR Lighting)**:
-   - *Key Light*: Sinar hangat terarah yang menghasilkan kilau pantulan alami pada permukaan daun.
-   - *Fill Light*: Menyinari bagian bayangan dengan rona hijau botani segar.
-   - *Rim Light*: Memberikan garis kilau tepi (*specular rim highlight*) pada daun.
-   - *Tone Mapping*: ACES Filmic Tone Mapping untuk akurasi pencahayaan fotografi profesional.
-3. **Perilaku Gerakan Saat Scroll**:
-   - **Saat Tidak Di-scroll**: Model 3D **100% diam** di tempatnya.
-   - **Saat Di-scroll ke Bawah**: Model 3D **berputar 360 derajat secara 3D** dan **meluncur turun ke bawah** secara mulus (*smooth scrub 1.5*) terintegrasi dengan GSAP ScrollTrigger.
-   - **Interaktivitas Varian**: Pengunjung dapat mengklik varian `01` (Mint), `02` (Kunyit), atau `03` (TOGA) untuk melihat asset 3D yang berbeda secara langsung.
-4. **Fallback Aman**:
-   - Jika browser lokal membatasi *fetch* file lokal (`file://` CORS), sistem otomatis beralih ke rendering foto botani realistik beresolusi tinggi tanpa merusak antarmuka.
+Rekomendasi tindakan nyata pada Fase 3 **berpijak 100% pada temuan data empiris kuesioner 636 responden siswa kelas XI** dan observasi ruang kelas/lab:
+
+| Temuan Data Kuesioner | Tantangan Nyata di Sekolah | Rekomendasi Tindakan Nyata (Fase 3) | Target & Tolok Ukur |
+| :--- | :--- | :--- | :--- |
+| **Butir P04 (Skor 3.22)**<br>Jurusan PPLG hanya 3.05.<br>13.7% siswa jarang batasi gawai. | Monitor lab & laptop siswa menyala tanpa henti saat jam istirahat. | **Kebijakan 5-Minute Auto Sleep & Jeda Minum Herbal:**<br>Setting *Power Saver* wajib di lab. Siswa diajak istirahat mata dengan seduhan teh Daun Mint pekarangan sekolah. | Hemat 50-70 Watt per unit PC selama jam istirahat. |
+| **Butir P09 (Skor 3.22)**<br>84 siswa (13.2%) jarang/sungkan menegur teman. | Sadar secara pribadi, tapi canggung menegur teman yang meninggalkan listrik menyala. | **Piket Eco-Peer Patrol & Stiker Pengingat Ramah:**<br>Menunjuk penanggung jawab saklar harian per kelas dan memasang stiker persuasif di sebelah stopkontak. | 100% ruang kelas memiliki PIC saklar resmi tanpa rasa canggung. |
+| **Butir P08 & P03**<br>Skor 3.31 & 3.37.<br>60 siswa jarang matikan AC/kipas kosong. | Suhu remote AC disetel terlalu dingin (16-18°C) dan kipas menyala di kelas kosong. | **SOP Suhu AC 24°C & Koridor Hijau TOGA:**<br>Kunci suhu AC di 24-25°C. Tempatkan pot tanaman herbal (Sirih Gading, Lidah Buaya) di jendela untuk turunkan suhu mikro 1-2°C. | Efisiensi beban listrik pendingin ruangan 15-20%. |
+| **Butir P06 & P10**<br>Skor 3.45 & 3.41.<br>51 siswa membiarkan colokan charger. | Kabel charger laptop/HP tetap menancap di terminal tanpa gawai (*phantom load*). | **Gerakan "Cabut Colokan Vampir Pukul 15.00":**<br>Ritual 3 menit sebelum bel pulang sekolah untuk serentak mencabut steker charger dan stopkontak terminal. | Zero Phantom Load di seluruh meja siswa dan lab. |
 
 ---
 
@@ -28,8 +21,8 @@ Pada hero section:
 
 ```
 Herbana/
-├── index.html                           # [VIEW] Landing Page Utama (Semantic HTML)
-├── data-fakta.html                      # [VIEW] Halaman Lengkap Data & Fakta (Semantic HTML)
+├── index.html                           # [VIEW] Landing Page Utama (Fase 1, 2 & 3)
+├── data-fakta.html                      # [VIEW] Halaman Lengkap Data & Fakta + Matriks Fase 3
 │
 ├── assets/                              # ASSET: Model 3D GLB & Tekstur
 │   ├── plant-1.glb                      # Asset 3D Realistik Varian 01
@@ -42,11 +35,11 @@ Herbana/
 │
 ├── js/
 │   ├── models/                          # [MODEL] Pengelola Data & Logika Bisnis
-│   │   ├── EnergyModel.js               # Validasi data JSON, perhitungan agregasi, getters
+│   │   ├── EnergyModel.js               # Validasi data JSON, kalkulasi agregasi, getters
 │   │   └── HerbalModel.js               # Entitas tanaman obat, zat aktif bioaktif & dampak energi
 │   │
 │   ├── views/                           # [VIEW] Komponen Antarmuka & Presentasi Visual
-│   │   ├── Plant3DView.js               # Three.js WebGL Engine, PBR Studio Lighting & GSAP Scroll
+│   │   ├── Plant3DView.js               # Three.js WebGL Engine, Natural PBR Lighting & Idle Spin
 │   │   ├── HerbalView.js                # Render kartu herbal secara aman & filter kategori UI
 │   │   └── ChartView.js                 # Render Chart.js (Donut, Bar, Grouped) & tabel 10 butir
 │   │
@@ -63,10 +56,8 @@ Herbana/
 
 ## 🚀 Cara Menjalankan
 
-1. **Jalankan melalui Local Web Server** (Direkomendasikan untuk pengalaman WebGL 3D maksimal):
-   ```bash
-   python -m http.server 8000
-   # Buka http://localhost:8000 di browser Anda
-   ```
-2. **Atau Buka Langsung**:
-   Klik dua kali berkas `index.html` atau `data-fakta.html` di File Explorer.
+Jalankan menggunakan web server lokal:
+```bash
+python -m http.server 8000
+# Akses melalui browser: http://localhost:8000
+```

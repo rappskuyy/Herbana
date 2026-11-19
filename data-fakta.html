@@ -279,31 +279,155 @@
       </div>
     </section>
 
-    <!-- ==================== KESIMPULAN & REKOMENDASI NYATA ==================== -->
-    <section class="bg-gradient-to-br from-[#2b3c22] to-[#1e2a16] p-8 sm:p-10 rounded-3xl border border-botanical-gold/30 shadow-2xl relative overflow-hidden">
-      <div class="max-w-3xl space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-botanical-gold/20 text-botanical-gold text-xs font-bold uppercase tracking-wider">
-          Kesimpulan Analisis Data & Sinergi Herbal
+    <!-- ==================== FASE 3: MATRIKS REKOMENDASI & AJAKAN AKSI BERBASIS DATA ==================== -->
+    <section id="rekomendasi-fase3" class="bg-[#24331b] p-6 sm:p-10 rounded-3xl border border-botanical-gold/40 shadow-2xl space-y-8 relative overflow-hidden">
+      
+      <!-- Header Fase 3 -->
+      <div class="space-y-3">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-botanical-accent/20 border border-botanical-accent/30 text-botanical-accent text-xs font-bold uppercase tracking-wider">
+          🎯 Detail Fase 3 — Rekomendasi & Ajakan Aksi
         </div>
-        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white">
-          Langkah Nyata: Menjaga Konsistensi Melalui Kebun Herbal (TOGA)
-        </h3>
-        <p class="text-emerald-100/80 text-sm leading-relaxed">
-          Dari temuan data di atas, kesadaran hemat energi siswa kelas XI sudah sangat tinggi (skor rerata 3,36 / 4,00). 
-          Untuk memperkuat kebiasaan ini ke tingkat aksi nyata yang berkelanjutan, <strong>Herbana merekomendasikan pembudidayaan tanaman obat keluarga (TOGA)</strong> di setiap bengkel, lab, dan kelas.
-          Kehadiran tanaman herbal tidak hanya menyediakan obat alami siap petik tanpa emisi karbon industri, namun juga menghidupkan budaya kepedulian lingkungan yang terbukti berkorelasi positif dengan perilaku hemat listrik dan air.
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white tracking-tight">
+          Matriks Rekomendasi Tindakan Nyata Berpijak pada Data
+        </h2>
+        <p class="text-emerald-100/80 text-xs sm:text-sm leading-relaxed max-w-4xl">
+          Sesuai prinsip kampanye hemat energi, seluruh rekomendasi di bawah ini <strong>tidak disusun secara klise atau umum</strong>, melainkan berpijak langsung pada data empiris kuesioner 636 responden kelas XI dan observasi ruang kelas/lab untuk menjawab kelemahan nyata yang teridentifikasi.
         </p>
-
-        <div class="pt-4 flex flex-wrap gap-4 no-print">
-          <a href="index.html#hero" class="px-6 py-3 rounded-full bg-botanical-gold hover:bg-[#d89a2e] text-[#1c2815] font-bold text-xs uppercase tracking-wider transition-all shadow-md">
-            Kembali ke Beranda Herbana
-          </a>
-          <button onclick="window.print()" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-            <span>Cetak / Simpan Laporan</span>
-          </button>
-        </div>
       </div>
+
+      <!-- Tabel Matriks: Temuan Data -> Masalah Spesifik -> Rekomendasi Aksi -> Target Terukur -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-white/20 text-emerald-200/90 uppercase tracking-wider text-[11px] bg-black/30">
+              <th class="py-3.5 px-4 rounded-l-xl">Temuan Data Kuesioner</th>
+              <th class="py-3.5 px-4">Tantangan Nyata di Sekolah</th>
+              <th class="py-3.5 px-4">Rekomendasi Tindakan Nyata</th>
+              <th class="py-3.5 px-4 text-center rounded-r-xl">Target & Tolok Ukur</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10 text-white/90 text-xs">
+            
+            <!-- Baris 1: P04 & PPLG -->
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="py-4 px-4 font-mono">
+                <span class="font-bold text-botanical-accent block">Butir P04 (3.22)</span>
+                <span class="text-white/60 text-[11px]">Jurusan PPLG: 3.05</span>
+                <span class="text-[10px] text-amber-300">13.7% siswa jarang membatasi gawai</span>
+              </td>
+              <td class="py-4 px-4 text-emerald-100/80">
+                Laptop dan monitor lab komputer sering dibiarkan menyala saat jam istirahat tanpa aktivitas produktif.
+              </td>
+              <td class="py-4 px-4">
+                <strong class="text-white block mb-1">Kebijakan 5-Minute Auto Sleep & Jeda Minum Herbal:</strong>
+                Wajibkan aktivasi <em>Power Saving Mode</em> otomatis pada PC lab. Dorong siswa beristirahat mata dengan mengonsumsi seduhan Daun Mint pekarangan sekolah saat jeda jam pelajaran.
+              </td>
+              <td class="py-4 px-4 text-center text-botanical-gold font-bold">
+                Hemat 50-70W per unit PC selama istirahat
+              </td>
+            </tr>
+
+            <!-- Baris 2: P09 -->
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="py-4 px-4 font-mono">
+                <span class="font-bold text-botanical-accent block">Butir P09 (3.22)</span>
+                <span class="text-white/60 text-[11px]">84 Siswa Jarang Menegur</span>
+                <span class="text-[10px] text-amber-300">Skor terendah bersama P04</span>
+              </td>
+              <td class="py-4 px-4 text-emerald-100/80">
+                Siswa sudah memiliki kesadaran pribadi, tetapi merasa sungkan atau canggung menegur teman yang meninggalkan alat listrik menyala.
+              </td>
+              <td class="py-4 px-4">
+                <strong class="text-white block mb-1">Sistem Piket Eco-Peer & Stiker Pengingat Ramah:</strong>
+                Menunjuk petugas piket energi harian per kelas dan memasang stiker visual persuasif di sebelah saklar: <em>"Bantu Sahabatmu: Pastikan Saklar Mati Saat Ruangan Kosong"</em>.
+              </td>
+              <td class="py-4 px-4 text-center text-botanical-gold font-bold">
+                100% ruang kelas memiliki PIC saklar resmi
+              </td>
+            </tr>
+
+            <!-- Baris 3: P08 & P03 -->
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="py-4 px-4 font-mono">
+                <span class="font-bold text-amber-300 block">Butir P08 & P03</span>
+                <span class="text-white/60 text-[11px]">P08: 3.31 | P03: 3.37</span>
+                <span class="text-[10px] text-amber-300">60 Siswa Jarang Matikan AC</span>
+              </td>
+              <td class="py-4 px-4 text-emerald-100/80">
+                Suhu remote AC disetel terlalu dingin (16-18°C) dan kipas angin dibiarkan hidup di kelas kosong saat olahraga/praktik bengkel.
+              </td>
+              <td class="py-4 px-4">
+                <strong class="text-white block mb-1">SOP Suhu AC 24°C & Koridor Hijau TOGA Pendingin Mikro:</strong>
+                Gembok batas minimal remote AC di 24°C. Letakkan deretan pot tanaman obat (Sirih, Lidah Buaya) di jendela untuk mereduksi panas mikroklimat hingga 2°C.
+              </td>
+              <td class="py-4 px-4 text-center text-botanical-gold font-bold">
+                Efisiensi konsumsi daya pendingin 15-20%
+              </td>
+            </tr>
+
+            <!-- Baris 4: P06 & P10 -->
+            <tr class="hover:bg-white/5 transition-colors">
+              <td class="py-4 px-4 font-mono">
+                <span class="font-bold text-emerald-300 block">Butir P06 & P10</span>
+                <span class="text-white/60 text-[11px]">P06: 3.45 | P10: 3.41</span>
+                <span class="text-[10px] text-emerald-300">51 Siswa Masih Sisakan Colokan</span>
+              </td>
+              <td class="py-4 px-4 text-emerald-100/80">
+                Charger laptop dan ponsel sering dibiarkan menancap di terminal meja kelas meskipun perangkat sudah dilepas (beban listrik semu).
+              </td>
+              <td class="py-4 px-4">
+                <strong class="text-white block mb-1">Gerakan "Cabut Colokan Vampir Pukul 15.00":</strong>
+                Bel akhir sekolah diiringi imbauan serentak untuk mencabut seluruh steker charger dan mematikan stopkontak master sebelum meninggalkan sekolah.
+              </td>
+              <td class="py-4 px-4 text-center text-botanical-gold font-bold">
+                Zero Phantom Load di 20+ ruang kelas & lab
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ajakan Aksi Nyata (Call to Action Terarah) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        
+        <div class="p-5 rounded-2xl bg-black/30 border border-white/10 space-y-2">
+          <span class="w-8 h-8 rounded-full bg-botanical-gold/20 text-botanical-gold flex items-center justify-center font-bold text-xs">A</span>
+          <h4 class="font-bold text-white text-sm">Untuk Siswa Kelas XI:</h4>
+          <p class="text-white/70 text-xs leading-relaxed">
+            Jadikan mematikan saklar dan mencabut steker charger sebagai refleks harian. Aktifkan mode hemat daya baterai laptop saat jam teori.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-black/30 border border-white/10 space-y-2">
+          <span class="w-8 h-8 rounded-full bg-botanical-500/20 text-botanical-300 flex items-center justify-center font-bold text-xs">B</span>
+          <h4 class="font-bold text-white text-sm">Untuk Guru & Wali Kelas:</h4>
+          <p class="text-white/70 text-xs leading-relaxed">
+            Menunjuk petugas piket energi bergilir tiap pekan dan membiasakan siswa mereview kondisi listrik kelas 5 menit sebelum jam pulang.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-black/30 border border-white/10 space-y-2">
+          <span class="w-8 h-8 rounded-full bg-botanical-accent/20 text-botanical-accent flex items-center justify-center font-bold text-xs">C</span>
+          <h4 class="font-bold text-white text-sm">Untuk Pengelola Sekolah & Lab:</h4>
+          <p class="text-white/70 text-xs leading-relaxed">
+            Menstandarisasi suhu AC pada 24°C, menyediakan saklar sentral per deret meja lab komputer, serta memperluas kebun TOGA penyejuk sekolah.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-4 flex flex-wrap gap-4 no-print border-t border-white/10">
+        <a href="index.html#rekomendasi" class="px-6 py-3 rounded-full bg-botanical-gold hover:bg-[#d89a2e] text-[#1c2815] font-bold text-xs uppercase tracking-wider transition-all shadow-md">
+          Lihat Ikrar Aksi di Beranda &rarr;
+        </a>
+        <button onclick="window.print()" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-medium text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>Cetak Dokumen Rekomendasi Fase 3</span>
+        </button>
+      </div>
+
     </section>
 
   </main>
